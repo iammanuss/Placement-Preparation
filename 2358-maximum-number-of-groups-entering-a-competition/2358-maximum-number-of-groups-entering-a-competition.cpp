@@ -1,25 +1,11 @@
 class Solution {
 public:
     int maximumGroups(vector<int>& grades) {
-        sort(grades.begin(),grades.end());
-        int idx=0;
-        int prev_cnt=0;
-        int cur_cnt=0;
-        int ans=0;
-        int prev_sum=0;
-        int cur_sum=0;
-        for(int i=0;i<grades.size();i++){
-            cur_sum+=grades[i];
-            cur_cnt++;
-            if(cur_sum>prev_sum && cur_cnt>prev_cnt){
-                ans++;
-                prev_sum=cur_sum;
-                prev_cnt=cur_cnt;
-                cur_cnt=0; 
-                cur_sum=0;
-            }
-             
+        int n = grades.size(), total = 0 , k=0;
+        while(total<=n)
+        {
+            total+= ++k;
         }
-        return ans;
+        return k-1;
     }
 };

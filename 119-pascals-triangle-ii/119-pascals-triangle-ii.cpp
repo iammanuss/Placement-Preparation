@@ -1,29 +1,13 @@
 class Solution {
-    vector<int>v;
-    void ans(int r_idx){
-        if(r_idx == 0){
-            v.clear();
-            v.push_back(1);
-            return ;
-        }
-        if(r_idx == 1){
-            v.clear();
-            v.push_back(1);
-            v.push_back(1);
-            return ;
-        }
-        ans(r_idx-1);
-        vector<int>temp(r_idx+1,1);
-        for(int i=1;i<r_idx;i++){
-            temp[i]=v[i]+v[i-1];
-        }
-        v.clear();
-        v=temp;
-        temp.clear();
-    }
 public:
-    vector<int> getRow(int r_idx) {
-        ans(r_idx);
-        return v;
+    vector<int> getRow(int rowIndex) {
+        vector<vector<int>>ans;
+	    for (int i=0;i<=rowIndex;i++) {
+		    vector<int> v(i+1, 1);
+            for (int j=1;j<i;j++)
+			    v[j] = ans[i-1][j-1] + ans[i-1][j];
+            ans.push_back(v);
+	    }
+        return ans[rowIndex];
     }
 };

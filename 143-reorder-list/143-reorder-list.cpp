@@ -9,25 +9,44 @@
  * };
  */
 class Solution {
+private:
+    ListNode* len(ListNode* head){
+        ListNode* fast=head;
+        ListNode* slow=head;
+        while(fast!=NULL && fast->next!=NULL){
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        return slow;
+    }
+    
+    ListNode* reverse(ListNode* temp){
+        ListNode* cur=temp;
+        ListNode* forward=NULL;
+        ListNode* prev=NULL;
+        
+        while(cur!=NULL){
+            forward=cur->next;
+            cur->next=prev;
+            prev=cur;
+            cur=forward;
+        }
+        return prev;
+    }
 public:
     void reorderList(ListNode* head) {
-        stack<ListNode*>st;
+        ListNode* slow=len(head);
+        ListNode* p=reverse(slow->next);
+        slow->next=NULL;
         ListNode* cur=head;
-        while(cur!=NULL){
-            st.push(cur);
-            cur=cur->next;
+
+        while(p){
+            ListNode* x=cur->next;
+            ListNode* y=p->next;
+            cur->next=p;
+            p->next=x;
+            cur=x;
+            p=y;
         }
-        int len=st.size()/2;
-        cur=head;
-        ListNode* t=NULL;
-        while(len--){
-            t=cur->next;
-            cur->next=st.top();
-            cur=cur->next;
-            cur->next=t;
-            cur=cur->next;
-            st.pop();
-        }
-        cur->next=NULL;
     }
 };

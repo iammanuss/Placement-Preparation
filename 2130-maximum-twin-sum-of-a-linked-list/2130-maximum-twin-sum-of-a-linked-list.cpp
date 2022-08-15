@@ -9,19 +9,47 @@
  * };
  */
 class Solution {
+private:
+    ListNode* reverse(ListNode* head){
+        ListNode* cur=head;
+        ListNode* prev=NULL;
+        ListNode* forward=NULL;
+        while(cur != NULL){
+            forward=cur->next;
+            cur->next=prev;
+            prev=cur;
+            cur=forward;
+        }
+        return prev;
+    }
+    ListNode* mid(ListNode* head){
+        ListNode* slow=head;
+        ListNode* fast=head;
+        while(fast!=NULL && fast->next!=NULL){
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        return slow;
+    }
+
 public:
     int pairSum(ListNode* head) {
-        ListNode *curr=head;
-        vector<int>ans;
-        while(curr){
-            ans.push_back(curr->val);
-            curr=curr->next;
+        ListNode* m=mid(head);
+        ListNode* rev=reverse(m);
+        ListNode* p=NULL;
+        ListNode* cur=head;
+        while(cur!=m){
+            p=cur;
+            cur=cur->next;
         }
-        int i=0;
-        int j=ans.size()-1;
-        int maxi=INT_MIN;
-        while(i<j){
-            maxi=max(maxi,ans[i++]+ans[j--]);
+        p->next=NULL;
+        cur=head;
+        int maxi=0;
+        while(cur!=NULL){
+            int temp=rev->val+cur->val;
+            maxi=max(maxi,temp);
+            rev=rev->next;
+            cur=cur->next;
         }
         return maxi;
     }

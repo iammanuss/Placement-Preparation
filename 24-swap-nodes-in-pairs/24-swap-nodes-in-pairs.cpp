@@ -13,9 +13,17 @@ public:
     ListNode* swapPairs(ListNode* head) {
         if(head == NULL) return NULL;
         if(head->next == NULL) return head;
-        ListNode* forward=head->next;
-        head->next = swapPairs(forward->next);
-        forward->next=head;
-        return forward;
+        ListNode* prev=new ListNode(-1);
+        ListNode* cur=head;
+        while(cur != NULL && cur->next != NULL){
+            prev->next = cur->next;
+            cur->next = cur->next->next;
+            prev->next->next = cur;
+            if(cur == head) head = prev->next;
+            prev= cur;
+            cur=cur->next;
+            
+        }
+        return head;
     }
 };

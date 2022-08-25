@@ -9,23 +9,40 @@
  * };
  */
 class Solution {
+private: 
+    ListNode* reverse(ListNode* head){
+        ListNode* curr=head;
+        ListNode* forward=NULL;
+        ListNode* prev=NULL;
+        
+        while(curr!=NULL){
+            forward=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=forward;
+        }
+        return prev;
+    }
 public:
     ListNode* swapNodes(ListNode* head, int k) {
-        ListNode *cur=head;
-        ListNode *curr=head;
-        vector<int>v;
-        while(cur!=NULL){
-            v.push_back(cur->val);
-            cur=cur->next;
-        }
-        int n=v.size();
-        swap(v[k-1],v[n-k]);
-        int i=0;
-        while(curr!=NULL){
-            curr->val=v[i];
-            i++;
+        if(head == NULL || head->next == NULL) return head;
+        ListNode* curr = head;
+        int i=1;
+        while(i<k){
             curr=curr->next;
+            i++;
         }
-        return head;
-    } 
+        ListNode* rev=reverse(head);
+        ListNode* p=rev;
+        i=1;
+        while(i<k){
+            rev=rev->next;
+            i++;
+        }
+        int temp=curr->val;
+        curr->val=rev->val;
+        rev->val=temp;
+        ListNode* q=reverse(p);
+        return q;
+    }
 };
